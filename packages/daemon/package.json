@@ -1,0 +1,71 @@
+{
+  "name": "normaldocs-daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local preview daemon for NormalDocs",
+  "author": "Tchirek",
+  "scripts": {
+    "dev": "electron electron/main.cjs",
+    "dev:core": "tsx src/index.ts",
+    "vendor:libreoffice:win": "node scripts/prepare-libreoffice-win.cjs",
+    "private:config": "node scripts/write-private-config.cjs",
+    "build": "tsc && node scripts/copy-electron.cjs",
+    "gui": "npm run build && electron dist/electron/main.cjs",
+    "package:win": "npm run private:config && npm run build && electron-builder --win portable",
+    "start": "node --enable-source-maps dist/index.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "mammoth": "^1.12.0",
+    "pdfjs-dist": "^6.0.227",
+    "read-excel-file": "^9.2.0",
+    "sanitize-html": "^2.17.5",
+    "sharp": "^0.33.5",
+    "word-extractor": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/sanitize-html": "^2.16.1",
+    "electron": "39.2.7",
+    "electron-builder": "^26.15.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "main": "dist/electron/main.cjs",
+  "build": {
+    "appId": "top.tchirek.normaldocs.daemon",
+    "productName": "NormalDocs Daemon",
+    "files": [
+      "dist/**/*.js",
+      "dist/**/*.cjs",
+      "dist/**/*.map",
+      "!dist/win-unpacked/**",
+      "!dist/*.exe",
+      "!dist/*.7z",
+      "!dist/*.blockmap",
+      "build/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "vendor/libreoffice/win",
+        "to": "vendor/libreoffice/win",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "private/normaldocs-daemon.config.json",
+        "to": "normaldocs-daemon.config.json"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
