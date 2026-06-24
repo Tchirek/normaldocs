@@ -1,0 +1,11 @@
+# NormalDocs Worker secrets — copy to `.dev.vars` and fill in. Never commit `.dev.vars`.
+# In production these are set with `wrangler secret put <NAME>`.
+
+# JWT signing secret for account sessions.
+JWT_SECRET=<jwt-signing-secret>
+# Shared secret the local conversion daemon authenticates with.
+DAEMON_SECRET=<daemon-shared-secret>
+# Shared secret for the SicSic comments callback.
+COMMENTS_CALLBACK_SECRET=<comments-callback-secret>
+# Hash (not the raw PIN) guarding destructive delete actions.
+DELETE_PIN_HASH=<bcrypt-hash-of-delete-pin>

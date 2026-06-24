@@ -1,0 +1,45 @@
+name = "normaldocs-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+workers_dev = true
+preview_urls = true
+
+routes = [
+  { pattern = "docs.example.com", custom_domain = true },
+  { pattern = "api.docs.example.com", custom_domain = true }
+]
+
+[assets]
+binding = "ASSETS"
+directory = "../frontend/dist"
+not_found_handling = "single-page-application"
+run_worker_first = true
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "normaldocs"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "normaldocs"
+database_id = "6d4baf34-a18f-4821-a516-aa05ced21af6"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "51657c75add34a28a2e0c6a35f306588"
+
+[vars]
+FRONTEND_ORIGIN = "https://docs.example.com"
+FRONTEND_ORIGINS = "https://docs.example.com,http://localhost:5173"
+COMMENTS_ORIGIN = "https://comments.pics.example.com"
+R2_ACCOUNT_ID = "your-account-id"
+R2_BUCKET_NAME = "normaldocs"
+PRINT_609_BASE_URL = "https://print.example.com"
+
+# Secrets:
+# JWT_SECRET
+# DAEMON_SECRET
+# DELETE_PIN_HASH
+# R2_ACCESS_KEY_ID
+# R2_SECRET_ACCESS_KEY
+# PRINT_609_HANDOFF_SECRET
